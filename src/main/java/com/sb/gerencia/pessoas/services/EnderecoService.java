@@ -2,6 +2,7 @@ package com.sb.gerencia.pessoas.services;
 
 import com.sb.gerencia.pessoas.dtos.EnderecoDto;
 import com.sb.gerencia.pessoas.entities.Endereco;
+import com.sb.gerencia.pessoas.entities.Pessoa;
 import com.sb.gerencia.pessoas.repositories.EnderecoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,9 @@ public class EnderecoService {
         this.modelMapper = modelMapper;
     }
 
-    public boolean createEndereco(EnderecoDto enderecoDto){
+    public boolean createEndereco(EnderecoDto enderecoDto, Pessoa pessoa){
         Endereco endereco = enderecoDtoToEndereco(enderecoDto);
+        endereco.setPessoa(pessoa);
 
         if (enderecoRepository.save(endereco) != null){
             return true;

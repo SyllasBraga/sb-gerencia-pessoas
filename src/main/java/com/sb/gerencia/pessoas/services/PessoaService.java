@@ -1,9 +1,11 @@
 package com.sb.gerencia.pessoas.services;
 
+import com.sb.gerencia.pessoas.dtos.EnderecoDto;
 import com.sb.gerencia.pessoas.dtos.PessoaDto;
 import com.sb.gerencia.pessoas.entities.Endereco;
 import com.sb.gerencia.pessoas.entities.Pessoa;
 import com.sb.gerencia.pessoas.exceptions.ResourceNotFoundException;
+import com.sb.gerencia.pessoas.repositories.EnderecoRepository;
 import com.sb.gerencia.pessoas.repositories.PessoaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ public class PessoaService {
 
     private PessoaRepository pessoaRepository;
     private ModelMapper modelMapper;
+    private EnderecoService enderecoService;
 
-    public PessoaService(PessoaRepository pessoaRepository, ModelMapper modelMapper) {
+    public PessoaService(PessoaRepository pessoaRepository, ModelMapper modelMapper, EnderecoService enderecoService) {
         this.pessoaRepository = pessoaRepository;
         this.modelMapper = modelMapper;
+        this.enderecoService = enderecoService;
     }
 
     //Requisito: Listar pessoas
@@ -70,8 +74,18 @@ public class PessoaService {
 
         return pessoaRepository.findById(idPessoa).map(x -> {
             pessoaRepository.deleteById(x.getId());
-            return "A pessoa de nome "+ x.getNome() +" excluído do sistema";
+            return "A pessoa de nome "+ x.getNome() +" foi excluída do sistema";
         }).orElseThrow(()-> new ResourceNotFoundException("Pessoa não encontrada"));
+    }
+
+    //Requisito: Criar endereço para pessoa
+    public PessoaDto criarEnderecoParaPessoa(Long idPessoa, EnderecoDto enderecoDto){
+
+        Pessoa pessoa = pessoaDtoToPessoa(getById(idPessoa));
+
+        enderecoService.createEndereco(enderecoDto, pessoa);
+
+        return getById(pessoa.getId());
     }
 
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
