@@ -3,6 +3,7 @@ package com.sb.gerencia.pessoas.services;
 import com.sb.gerencia.pessoas.dtos.PessoaDto;
 import com.sb.gerencia.pessoas.entities.Endereco;
 import com.sb.gerencia.pessoas.entities.Pessoa;
+import com.sb.gerencia.pessoas.exceptions.ResourceNotFoundException;
 import com.sb.gerencia.pessoas.repositories.PessoaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,14 +42,27 @@ public class PessoaService {
         return pessoaDto;
     }
 
+    //Requisito: Criar uma pessoa
     public PessoaDto create(PessoaDto pessoaDto){
 
         Pessoa pessoa = pessoaDtoToPessoa(pessoaDto);
         Pessoa pessoaCriada = pessoaRepository.save(pessoa);
+
         PessoaDto pessoaDtoCriada = pessoaToPessoaDto(pessoaCriada);
 
         return pessoaDtoCriada;
 
+    }
+
+    //Requisito: Editar uma pessoa
+    public PessoaDto update(Long idPessoa, PessoaDto pessoaDto){
+
+        return pessoaRepository.findById(idPessoa).map( Record ->{
+                    Record.setDataNascimento(pessoaDto.getDataNascimento());
+                    Record.setNome(pessoaDto.getNome());
+                    return pessoaToPessoaDto(pessoaRepository.save(Record));
+                }
+        ).orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada."));
     }
 
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
