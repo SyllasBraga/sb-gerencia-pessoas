@@ -41,7 +41,15 @@ public class PessoaService {
         return pessoaDto;
     }
 
+    public PessoaDto create(PessoaDto pessoaDto){
 
+        Pessoa pessoa = pessoaDtoToPessoa(pessoaDto);
+        Pessoa pessoaCriada = pessoaRepository.save(pessoa);
+        PessoaDto pessoaDtoCriada = pessoaToPessoaDto(pessoaCriada);
+
+        return pessoaDtoCriada;
+
+    }
 
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
