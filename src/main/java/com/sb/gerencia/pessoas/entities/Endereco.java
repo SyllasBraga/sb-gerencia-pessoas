@@ -10,7 +10,7 @@ import lombok.Data;
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String logradouro;
@@ -21,5 +21,5 @@ public class Endereco {
 
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
-    private Pessoa pessoa;
+    private Pessoa idPessoa;
 }

@@ -102,7 +102,7 @@ public class PessoaService {
         EnderecoDto enderecoDto = enderecoService.getById(idEndereco);
 
         if (pessoaDto.getEnderecos().contains(enderecoDto)){
-            enderecoDto.setPrincipal(true);
+            enderecoService.setarEndereco(idEndereco);
         }else{
             throw new ResourceNotFoundException("Endereço não encontrado.");
         }

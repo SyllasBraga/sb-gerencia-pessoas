@@ -3,6 +3,7 @@ package com.sb.gerencia.pessoas.services;
 import com.sb.gerencia.pessoas.dtos.EnderecoDto;
 import com.sb.gerencia.pessoas.entities.Endereco;
 import com.sb.gerencia.pessoas.entities.Pessoa;
+import com.sb.gerencia.pessoas.exceptions.ResourceNotFoundException;
 import com.sb.gerencia.pessoas.repositories.EnderecoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,24 @@ public class EnderecoService {
         this.modelMapper = modelMapper;
     }
 
-    public boolean createEndereco(EnderecoDto enderecoDto, Pessoa pessoa){
+    public void createEndereco(EnderecoDto enderecoDto, Pessoa pessoa){
         Endereco endereco = enderecoDtoToEndereco(enderecoDto);
-        endereco.setPessoa(pessoa);
+        endereco.setIdPessoa(pessoa);
 
-        if (enderecoRepository.save(endereco) != null){
-            return true;
-        }
-        return false;
+        enderecoRepository.save(endereco);
     }
+
+    public Endereco setarEndereco(Long idEndereco){
+
+
+
+        return enderecoRepository.findById(idEndereco).map((x)->{
+           x.setPrincipal(true);
+           return enderecoRepository.save(x);
+        }).orElseThrow(()-> new ResourceNotFoundException("Endereço não encontrado."));
+
+    }
+
 
     public EnderecoDto getById(Long idEndereco){
 
