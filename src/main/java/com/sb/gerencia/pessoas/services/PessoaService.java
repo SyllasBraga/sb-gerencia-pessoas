@@ -88,6 +88,14 @@ public class PessoaService {
         return getById(pessoa.getId());
     }
 
+    //Requisito: Listar endereços da pessoa
+    public List<EnderecoDto> listarEnderecos(Long idPessoa){
+
+        PessoaDto pessoaDto = getById(idPessoa);
+
+        return pessoaDto.getEnderecos();
+    }
+
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
     }
