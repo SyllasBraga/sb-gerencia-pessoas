@@ -6,6 +6,7 @@ import com.sb.gerencia.pessoas.services.PessoaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,18 +30,18 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaDto> create(@RequestBody PessoaDto pessoaDto){
+    public ResponseEntity<PessoaDto> create(@RequestBody @Valid PessoaDto pessoaDto){
         return ResponseEntity.status(201).body(pessoaService.create(pessoaDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaDto> update(@PathVariable(name = "id") Long id, @RequestBody PessoaDto pessoaDto){
+    public ResponseEntity<PessoaDto> update(@PathVariable(name = "id") Long id, @RequestBody @Valid PessoaDto pessoaDto){
         return ResponseEntity.status(200).body(pessoaService.update(id, pessoaDto));
     }
 
     @PostMapping("/{id}/enderecos")
     public ResponseEntity<PessoaDto> createEndereco(@PathVariable(name = "id") Long id,
-                                                    @RequestBody EnderecoDto enderecoDto){
+                                                    @RequestBody @Valid EnderecoDto enderecoDto){
         return ResponseEntity.status(201).body(pessoaService.criarEnderecoParaPessoa(id, enderecoDto));
     }
 
