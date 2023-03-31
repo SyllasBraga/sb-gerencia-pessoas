@@ -40,7 +40,8 @@ public class PessoaService {
     //Requisito: Consultar uma pessoa
     public PessoaDto getById(Long id){
 
-        Pessoa pessoa = pessoaRepository.findById(id).get();
+        Pessoa pessoa = pessoaRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Pessoa não encontrada."));
         PessoaDto pessoaDto = pessoaToPessoaDto(pessoa);
 
         return pessoaDto;
