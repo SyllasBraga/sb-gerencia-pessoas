@@ -65,6 +65,15 @@ public class PessoaService {
         ).orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada."));
     }
 
+    //Requisito: Excluir uma pessoa
+    public String deletar(Long idPessoa){
+
+        return pessoaRepository.findById(idPessoa).map(x -> {
+            pessoaRepository.deleteById(x.getId());
+            return "A pessoa de nome "+ x.getNome() +" excluído do sistema";
+        }).orElseThrow(()-> new ResourceNotFoundException("Pessoa não encontrada"));
+    }
+
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
     }
