@@ -32,6 +32,17 @@ public class PessoaService {
         return listaDto;
     }
 
+    //Requisito: Consultar uma pessoa
+    public PessoaDto getById(Long id){
+
+        Pessoa pessoa = pessoaRepository.findById(id).get();
+        PessoaDto pessoaDto = pessoaToPessoaDto(pessoa);
+
+        return pessoaDto;
+    }
+
+
+
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
     }
