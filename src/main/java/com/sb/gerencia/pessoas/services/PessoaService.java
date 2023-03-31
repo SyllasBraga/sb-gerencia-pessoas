@@ -96,6 +96,22 @@ public class PessoaService {
         return pessoaDto.getEnderecos();
     }
 
+    //Requisito: Poder informar qual endereço é o principal da pessoa
+    public PessoaDto setarEnderecoPrincipal(Long idPessoa, Long idEndereco){
+
+        PessoaDto pessoaDto = getById(idPessoa);
+        EnderecoDto enderecoDto = enderecoService.getById(idEndereco);
+
+        if (pessoaDto.getEnderecos().contains(enderecoDto)){
+            enderecoDto.setPrincipal(true);
+        }else{
+            throw new ResourceNotFoundException("Endereço não encontrado.");
+        }
+
+        return getById(idPessoa);
+
+    }
+
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
     }

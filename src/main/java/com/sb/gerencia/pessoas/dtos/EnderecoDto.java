@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Entity
 @Data
 public class EnderecoDto {
 
@@ -24,4 +23,6 @@ public class EnderecoDto {
     @NotBlank(message = "Não pode estar em branco")
     @Size(min = 3, max = 255, message = "Deve ter de 3 a 255 caracteres")
     private String cidade;
+    private Boolean principal;
+
 }

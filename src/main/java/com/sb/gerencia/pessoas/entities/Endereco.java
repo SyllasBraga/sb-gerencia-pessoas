@@ -16,6 +16,7 @@ public class Endereco {
     private String cep;
     private int numero;
     private String cidade;
+    private Boolean principal;
 
     @OneToMany
     @JsonBackReference
