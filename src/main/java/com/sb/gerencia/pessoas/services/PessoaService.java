@@ -7,6 +7,9 @@ import com.sb.gerencia.pessoas.repositories.PessoaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class PessoaService {
@@ -17,6 +20,16 @@ public class PessoaService {
     public PessoaService(PessoaRepository pessoaRepository, ModelMapper modelMapper) {
         this.pessoaRepository = pessoaRepository;
         this.modelMapper = modelMapper;
+    }
+
+    //Requisito: Listar pessoas
+    public List<PessoaDto> getAll(){
+        List<PessoaDto> listaDto = new ArrayList<>();
+        List<Pessoa> lista = pessoaRepository.findAll();
+
+        lista.forEach(x -> listaDto.add(pessoaToPessoaDto(x)));
+
+        return listaDto;
     }
 
     public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
