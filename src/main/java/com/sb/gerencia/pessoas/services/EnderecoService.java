@@ -12,8 +12,9 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
     private ModelMapper modelMapper;
 
-    public EnderecoService(EnderecoRepository enderecoRepository) {
+    public EnderecoService(EnderecoRepository enderecoRepository, ModelMapper modelMapper) {
         this.enderecoRepository = enderecoRepository;
+        this.modelMapper = modelMapper;
     }
 
     public boolean createEndereco(EnderecoDto enderecoDto){
