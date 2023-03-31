@@ -1,7 +1,5 @@
 package com.sb.gerencia.pessoas.dtos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sb.gerencia.pessoas.entities.Pessoa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
