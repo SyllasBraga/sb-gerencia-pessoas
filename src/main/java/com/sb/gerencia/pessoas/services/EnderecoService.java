@@ -28,7 +28,20 @@ public class EnderecoService {
         return false;
     }
 
+    public EnderecoDto getById(Long idEndereco){
+
+        Endereco endereco = enderecoRepository.findById(idEndereco).get();
+        EnderecoDto enderecoDto = enderecoToEnderecoDto(endereco);
+
+        return enderecoDto;
+
+    }
+
     public Endereco enderecoDtoToEndereco(EnderecoDto enderecoDto){
         return modelMapper.map(enderecoDto, Endereco.class);
+    }
+
+    public EnderecoDto enderecoToEnderecoDto(Endereco endereco){
+        return modelMapper.map(endereco, EnderecoDto.class);
     }
 }
