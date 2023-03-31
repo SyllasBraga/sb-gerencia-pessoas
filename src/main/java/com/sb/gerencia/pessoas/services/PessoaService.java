@@ -81,6 +81,7 @@ public class PessoaService {
     public PessoaDto criarEnderecoParaPessoa(Long idPessoa, EnderecoDto enderecoDto){
 
         Pessoa pessoa = pessoaDtoToPessoa(getById(idPessoa));
+        pessoa.setId(idPessoa);
 
         enderecoService.createEndereco(enderecoDto, pessoa);
 

@@ -28,8 +28,6 @@ public class EnderecoService {
 
     public Endereco setarEndereco(Long idEndereco){
 
-
-
         return enderecoRepository.findById(idEndereco).map((x)->{
            x.setPrincipal(true);
            return enderecoRepository.save(x);
