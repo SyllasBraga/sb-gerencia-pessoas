@@ -1,6 +1,7 @@
 package com.sb.gerencia.pessoas.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class Endereco {
     private String cidade;
     private Boolean principal;
 
-    @OneToMany
-    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
 }

@@ -1,5 +1,6 @@
 package com.sb.gerencia.pessoas.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class Pessoa {
     private String nome;
     private Timestamp dataNascimento;
 
-    @ManyToOne
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Endereco> enderecos;
 }
