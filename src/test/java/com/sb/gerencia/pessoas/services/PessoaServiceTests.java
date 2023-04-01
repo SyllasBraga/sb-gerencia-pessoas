@@ -103,6 +103,17 @@ public class PessoaServiceTests {
         Assertions.assertEquals(PessoaDto.class, resultado.getClass());
     }
 
+    @Test
+    @DisplayName("Teste: PessoaService.update()")
+    void quandoUpdateRetornaUmaPessoa() {
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+        when(pessoaRepository.save(Mockito.any())).thenReturn(pessoa);
+
+        PessoaDto resultado = pessoaService.update(pessoaDto.getId(), pessoaDto);
+
+        Assertions.assertEquals(PessoaDto.class, resultado.getClass());
+    }
 
     private void startObjects(){
         endereco = new Endereco(ID1, LOGRADOURO, CEP, NUMERO,
