@@ -63,6 +63,18 @@ public class PessoaServiceTests {
 
     }
 
+    @Test
+    @DisplayName("Teste: PessoaService.getById()")
+    public void quandoGetByIdRetornaUmaPessoa(){
+
+        Mockito.when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+
+        PessoaDto resultado = pessoaService.getById(Mockito.anyLong());
+
+        Assertions.assertEquals(PessoaDto.class, resultado.getClass());
+
+    }
+
     private void startObjects(){
         endereco = new Endereco(ID1, LOGRADOURO, CEP, NUMERO,
                 CIDADE, true, null);
