@@ -112,11 +112,11 @@ public class PessoaService {
 
     }
 
-    public PessoaDto pessoaToPessoaDto(Pessoa pessoa){
+    private PessoaDto pessoaToPessoaDto(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDto.class);
     }
 
-    public Pessoa pessoaDtoToPessoa(PessoaDto pessoaDto){
+    private Pessoa pessoaDtoToPessoa(PessoaDto pessoaDto){
         return modelMapper.map(pessoaDto, Pessoa.class);
     }
 

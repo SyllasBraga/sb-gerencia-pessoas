@@ -45,11 +45,11 @@ public class EnderecoService {
 
     }
 
-    public Endereco enderecoDtoToEndereco(EnderecoDto enderecoDto){
+    private Endereco enderecoDtoToEndereco(EnderecoDto enderecoDto){
         return modelMapper.map(enderecoDto, Endereco.class);
     }
 
-    public EnderecoDto enderecoToEnderecoDto(Endereco endereco){
+    private EnderecoDto enderecoToEnderecoDto(Endereco endereco){
         return modelMapper.map(endereco, EnderecoDto.class);
     }
 }
