@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 public class PessoaServiceTests {
@@ -94,7 +95,7 @@ public class PessoaServiceTests {
 
     @Test
     @DisplayName("Teste: PessoaService.create()")
-    void quandoCreateRetornaUmaPessoa() {
+    public void quandoCreateRetornaUmaPessoa() {
 
         when(pessoaRepository.save(Mockito.any())).thenReturn(pessoa);
 
@@ -105,7 +106,7 @@ public class PessoaServiceTests {
 
     @Test
     @DisplayName("Teste: PessoaService.update()")
-    void quandoUpdateRetornaUmaPessoa() {
+    public void quandoUpdateRetornaUmaPessoa() {
 
         when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
         when(pessoaRepository.save(Mockito.any())).thenReturn(pessoa);
@@ -113,6 +114,43 @@ public class PessoaServiceTests {
         PessoaDto resultado = pessoaService.update(pessoaDto.getId(), pessoaDto);
 
         Assertions.assertEquals(PessoaDto.class, resultado.getClass());
+    }
+
+    @Test
+    @DisplayName("Teste: PessoaService.update().ResourceNotFoundException")
+    public void quandoUpdateRetornaUmResourceNotFoundException() {
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenThrow(new ResourceNotFoundException("Pessoa não encontrada."));
+
+        try {
+            pessoaService.update(pessoaDto.getId(), pessoaDto);
+        }catch (Exception ex){
+            Assertions.assertEquals(ResourceNotFoundException.class, ex.getClass());
+        }
+    }
+
+    @Test
+    @DisplayName("Teste: PessoaService.deletar()")
+    public void quandoExcluirRetornaUmaString(){
+        when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+        doNothing().when(pessoaRepository).deleteById(Mockito.anyLong());
+
+        String resultado = pessoaService.deletar(pessoa.getId());
+
+        Assertions.assertEquals(String.class, resultado.getClass());
+    }
+
+    @Test
+    @DisplayName("Teste: PessoaService.deletar().ResourceNotFoundException")
+    public void quandoDeleteRetornaUmResourceNotFoundException() {
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenThrow(new ResourceNotFoundException("Pessoa não encontrada."));
+
+        try {
+            pessoaService.deletar(pessoa.getId());
+        }catch (Exception ex){
+            Assertions.assertEquals(ResourceNotFoundException.class, ex.getClass());
+        }
     }
 
     private void startObjects(){
