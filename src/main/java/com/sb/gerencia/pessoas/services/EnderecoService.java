@@ -7,6 +7,9 @@ import com.sb.gerencia.pessoas.exceptions.ResourceNotFoundException;
 import com.sb.gerencia.pessoas.repositories.EnderecoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 @Service
 public class EnderecoService {
@@ -26,7 +29,9 @@ public class EnderecoService {
         enderecoRepository.save(endereco);
     }
 
-    public Endereco setarEndereco(Long idEndereco){
+    public Endereco setarEndereco(Pessoa pessoa, Long idEndereco){
+
+        setarEnderecoFalse(pessoa);
 
         return enderecoRepository.findById(idEndereco).map((x)->{
            x.setPrincipal(true);
@@ -35,6 +40,16 @@ public class EnderecoService {
 
     }
 
+    public void setarEnderecoFalse(Pessoa idPessoa){
+
+        List<Endereco> lista = enderecoRepository.findByIdPessoa(idPessoa);
+
+        lista.forEach((x) -> {
+            x.setPrincipal(false);
+            enderecoRepository.save(x);
+        });
+
+    }
 
     public EnderecoDto getById(Long idEndereco){
 
@@ -44,7 +59,6 @@ public class EnderecoService {
         return enderecoDto;
 
     }
-
     private Endereco enderecoDtoToEndereco(EnderecoDto enderecoDto){
         return modelMapper.map(enderecoDto, Endereco.class);
     }

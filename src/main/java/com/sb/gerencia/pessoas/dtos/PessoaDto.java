@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class PessoaDto {
 
+    private Long id;
     @NotBlank(message = "Não pode estar em branco")
     @Size(min = 3, max = 255, message = "Deve ter de 3 a 255 caracteres")
     private String nome;

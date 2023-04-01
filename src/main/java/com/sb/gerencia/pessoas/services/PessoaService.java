@@ -100,10 +100,11 @@ public class PessoaService {
     public PessoaDto setarEnderecoPrincipal(Long idPessoa, Long idEndereco){
 
         PessoaDto pessoaDto = getById(idPessoa);
+
         EnderecoDto enderecoDto = enderecoService.getById(idEndereco);
 
         if (pessoaDto.getEnderecos().contains(enderecoDto)){
-            enderecoService.setarEndereco(idEndereco);
+            enderecoService.setarEndereco(pessoaDtoToPessoa(pessoaDto), idEndereco);
         }else{
             throw new ResourceNotFoundException("Endereço não encontrado.");
         }
