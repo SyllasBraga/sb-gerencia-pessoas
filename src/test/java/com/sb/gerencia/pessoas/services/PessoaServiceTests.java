@@ -14,6 +14,7 @@ import org.mockito.*;
 import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -165,6 +166,17 @@ public class PessoaServiceTests {
         Assertions.assertEquals(PessoaDto.class, resultado.getClass());
     }
 
+    @Test
+    @DisplayName("Teste: PessoaService.listarEnderecos()")
+    public void quandoListarEnderecosRetornaUmaLista(){
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+
+        List<EnderecoDto> resultado = pessoaService.listarEnderecos(pessoaDto.getId());
+        List<EnderecoDto> esperado = new ArrayList<>();
+
+        Assertions.assertEquals(esperado.getClass(), resultado.getClass());
+    }
 
     private void startObjects(){
         endereco = new Endereco(ID1, LOGRADOURO, CEP, NUMERO,
