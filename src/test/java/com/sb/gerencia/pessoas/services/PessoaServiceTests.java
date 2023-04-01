@@ -4,6 +4,7 @@ import com.sb.gerencia.pessoas.dtos.EnderecoDto;
 import com.sb.gerencia.pessoas.dtos.PessoaDto;
 import com.sb.gerencia.pessoas.entities.Endereco;
 import com.sb.gerencia.pessoas.entities.Pessoa;
+import com.sb.gerencia.pessoas.exceptions.ResourceNotFoundException;
 import com.sb.gerencia.pessoas.repositories.PessoaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 
 public class PessoaServiceTests {
 
@@ -55,7 +58,7 @@ public class PessoaServiceTests {
     @DisplayName("Teste: PessoaService.getAll()")
     public void quandoGetAllRetornaUmaListaPessoas(){
 
-        Mockito.when(pessoaRepository.findAll()).thenReturn(List.of(pessoa));
+        when(pessoaRepository.findAll()).thenReturn(List.of(pessoa));
 
         List<PessoaDto> resultado = pessoaService.getAll();
 
@@ -67,13 +70,39 @@ public class PessoaServiceTests {
     @DisplayName("Teste: PessoaService.getById()")
     public void quandoGetByIdRetornaUmaPessoa(){
 
-        Mockito.when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+        when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
 
         PessoaDto resultado = pessoaService.getById(Mockito.anyLong());
 
         Assertions.assertEquals(PessoaDto.class, resultado.getClass());
 
     }
+
+    @Test
+    @DisplayName("Teste: PessoaService.getById().ResourceNotFoundException")
+    public void quandoGetByIdRetornaUmaResourceNotFoundException(){
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenThrow(new ResourceNotFoundException("Pessoa não encontrada."));
+
+        try {
+            pessoaService.getById(Mockito.anyLong());
+        }catch (Exception ex){
+            Assertions.assertEquals(ResourceNotFoundException.class, ex.getClass());
+        }
+
+    }
+
+    @Test
+    @DisplayName("Teste: PessoaService.create()")
+    void quandoCreateRetornaUmaPessoa() {
+
+        when(pessoaRepository.save(Mockito.any())).thenReturn(pessoa);
+
+        PessoaDto resultado = pessoaService.create(pessoaDto);
+
+        Assertions.assertEquals(PessoaDto.class, resultado.getClass());
+    }
+
 
     private void startObjects(){
         endereco = new Endereco(ID1, LOGRADOURO, CEP, NUMERO,
