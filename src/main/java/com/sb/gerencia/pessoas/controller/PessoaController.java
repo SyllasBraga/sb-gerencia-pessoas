@@ -39,6 +39,11 @@ public class PessoaController {
         return ResponseEntity.status(200).body(pessoaService.update(id, pessoaDto));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable(name = "id") Long id){
+        return ResponseEntity.status(200).body(pessoaService.deletar(id));
+    }
+
     @PostMapping("/{id}/enderecos")
     public ResponseEntity<PessoaDto> createEndereco(@PathVariable(name = "id") Long id,
                                                     @RequestBody @Valid EnderecoDto enderecoDto){
