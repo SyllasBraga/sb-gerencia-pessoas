@@ -178,6 +178,19 @@ public class PessoaServiceTests {
         Assertions.assertEquals(esperado.getClass(), resultado.getClass());
     }
 
+    @Test
+    @DisplayName("Teste: PessoaService.setarEnderecoPrincipal")
+    public void quandoSetarEnderecoPrincipalRetornaUmaPessoa(){
+
+        when(pessoaRepository.findById(Mockito.anyLong())).thenReturn(optPessoa);
+        when(enderecoService.getById(Mockito.anyLong())).thenReturn(enderecoDto);
+        when(enderecoService.setarEndereco(pessoa, endereco.getId())).thenReturn(endereco);
+
+        PessoaDto resultado = pessoaService.setarEnderecoPrincipal(pessoa.getId(), endereco.getId());
+
+        Assertions.assertEquals(PessoaDto.class, resultado.getClass());
+    }
+
     private void startObjects(){
         endereco = new Endereco(ID1, LOGRADOURO, CEP, NUMERO,
                 CIDADE, true, null);
@@ -186,5 +199,6 @@ public class PessoaServiceTests {
         pessoaDto = new PessoaDto(ID, JOSÉ, DATA_NASCIMENTO, List.of(enderecoDto));
         pessoa = new Pessoa(ID, JOSÉ, DATA_NASCIMENTO, List.of(endereco));
         optPessoa = Optional.of(new Pessoa(ID, JOSÉ, DATA_NASCIMENTO, List.of(endereco)));
+        endereco.setIdPessoa(pessoa);
     }
 }
